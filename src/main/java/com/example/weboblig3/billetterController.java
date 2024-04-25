@@ -9,33 +9,23 @@ import java.util.List;
 public class billetterController {
 
     @Autowired
-    billetterRepository rep;
+    billetterRepository billettRepo;
     @PostMapping("/lagre")
-    public void Lagre(billetter billett) {
-        rep.lagreBilletter(billett);
-    }
+    public void lagre(billetter billett) {billettRepo.lagreBilletter(billett);}
 
-    @GetMapping("/hentalle")
-    public List<billetter> hentalle() {
-        return rep.hentAlleBilletter();
+    @GetMapping("/hentBilletter")
+    public List<billetter> hentBilletter() {return billettRepo.hentAlleBilletter();
     }
-    @GetMapping("/hentEnBillett")
-    public billetter hentEnBillett(Integer id){
-        return rep.hentEnBillett(id);
+    @GetMapping("/hentBillettet")
+    public billetter hentBillettet(Integer id){return billettRepo.hentBillettet(id);
     }
-    @PostMapping("/endreEnKunde")
-    public void endreEnKunde(billetter billett){
-        rep.endreEnBillett(billett);
+    @PostMapping("/endre")
+    public void endre(billetter billett){billettRepo.endreBillett(billett);
     }
-
-    @GetMapping("/slettEn")
-    public void slettEn(Integer id){
-        rep.slettEn(id);
+    @GetMapping("/slettBillettet")
+    public void slettBillettet(Integer id){billettRepo.slettBillettet(id);
     }
-
-    @DeleteMapping("/slettalle")
-    public void slettalle(){
-        rep.slettAlleBilletter();
+    @DeleteMapping("/slettBilletter") public void slettBilletter(){billettRepo.slettAlleBilletter();
     }
 
 }

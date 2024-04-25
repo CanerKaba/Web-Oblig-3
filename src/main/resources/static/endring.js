@@ -1,6 +1,6 @@
 $(function (){
     const id = window.location.search.substring(1);
-    const url = "/hentEnBillett?"+id;
+    const url = "/hentBillettet?"+id;
     $.get(url, function (billett){
         $("#id").val(billett.id),
             $("#film").val(billett.film),
@@ -12,7 +12,7 @@ $(function (){
     });
 });
 
-function endreBillett(){
+function endreBillettet(){
 
     $("#feilFilm").html(" ");
     $("#feilAntall").html(" ");
@@ -26,31 +26,31 @@ function endreBillett(){
     const fornavn = $("#fornavn").val();
     const etternavn = $("#etternavn").val();
     const epost = $("#epost").val();
-    const sjekkMail = /^[\w\.-]+@[a-zA-Z\d.-]+\.[a-zA-Z]{2,}$/;
+    const kontEpost = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
     const telefonNr = $("#telefonNr").val();
 
     if(film === ""){
-        $("#feilFilm").html("Ugyldig input")
+        $("#feilFilm").html("Ugyldig")
         return;
     }
     if (isNaN(antall)){
-        $("#feilAntall").html("Ugyldig valg")
+        $("#feilAntall").html("Ugyldig")
         return;
     }
     if (fornavn.trim()==="" || /^\d+$/.test(fornavn)){
-        $("#feilFornavn").html("Ugyldig input")
+        $("#feilFornavn").html("Må skriv noe inn i fornavn")
         return;
     }
     if (etternavn.trim()==="" || /^\d+$/.test(etternavn)){
-        $("#feilEtternavn").html("Ugyldig input")
+        $("#feilEtternavn").html("Må skriv noe inn i etternavn")
         return;
     }
     if (isNaN(telefonNr) || Number.isFinite(telefonNr)){
-        $("#feilTelefonNr").html("Ugyldig input")
+        $("#feilTelefonNr").html("Må skriv noe inn i telefonnr")
         return;
     }
-    if(!sjekkMail.test(epost)){
-        $("#feilEpost").html("Ugyldig input")
+    if(!kontEpost.test(epost)){
+        $("#feilEpost").html("Må skriv noe inn i epost")
         return;
     }
 
@@ -63,7 +63,7 @@ function endreBillett(){
         epost : $("#epost").val(),
         telefonNr : $("#telefonNr").val()
     }
-    $.post("/endreEnKunde", billett, function (){
+    $.post("/endre", billett, function (){
     });
     window.location.href = 'index.html';
 }

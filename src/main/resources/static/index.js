@@ -1,7 +1,7 @@
 $(function (){
     hentAlle();
 });
-function regBillett(){
+function kjopBillett(){
 
     $("#feilFilm").html(" ");
     $("#feilAntall").html(" ");
@@ -15,31 +15,31 @@ function regBillett(){
     const fornavn = $("#fornavn").val();
     const etternavn = $("#etternavn").val();
     const epost = $("#epost").val();
-    const sjekkMail = /^[\w\.-]+@[a-zA-Z\d.-]+\.[a-zA-Z]{2,}$/;
+    const kontEpost = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
     const telefonNr = $("#telefonNr").val();
 
     if(film === ""){
-        $("#feilFilm").html("Ugyldig input")
+        $("#feilFilm").html("Ugyldig")
         return;
     }
     if (isNaN(antall)){
-        $("#feilAntall").html("Ugyldig valg")
+        $("#feilAntall").html("Ugyldig")
         return;
     }
     if (fornavn.trim()==="" || /^\d+$/.test(fornavn)){
-        $("#feilFornavn").html("Ugyldig input")
+        $("#feilFornavn").html("Må skriv noe inn i fornavn")
         return;
     }
     if (etternavn.trim()==="" || /^\d+$/.test(etternavn)){
-        $("#feilEtternavn").html("Ugyldig input")
+        $("#feilEtternavn").html("Må skriv noe inn i etternavn")
         return;
     }
     if (isNaN(telefonNr) || Number.isFinite(telefonNr)){
-        $("#feilTelefonNr").html("Ugyldig input")
+        $("#feilTelefonNr").html("Må skriv noe inn i telefonnr")
         return;
     }
-    if(!sjekkMail.test(epost)){
-        $("#feilEpost").html("Ugyldig input")
+    if(!kontEpost.test(epost)){
+        $("#feilEpost").html("Må skriv noe inn i epost")
         return;
     }
 
@@ -67,25 +67,25 @@ function regBillett(){
 }
 
 function hentAlle(){
-    $.get("/hentalle", function (billetter){
+    $.get("/hentBilletter", function (billetter){
         formaterData(billetter);
     }).fail(function (error){
         console.log("Error", error);
     });
 }
 
-function slettallebilletter(){
+function slettallebillettene(){
     $.ajax({
         type: "DELETE",
-        url: "/slettalle",
+        url: "/slettBilletter",
         success: function () {
             $("#billetter").html("");
             $("#film").val("");
-            $("#seter").val("");
+            $("#antall").val("");
             $("#fornavn").val("");
             $("#etternavn").val("");
-            $("#mail").val("");
-            $("#tlf").val("");
+            $("#epost").val("");
+            $("#telefonNr").val("");
         }
     });
 }
@@ -97,7 +97,7 @@ function formaterData(billetter){
         "</tr>";
     for(let b of billetter){
         ut +="<tr>" +
-            "<td>"+b.film +"</td><td>"+b.antall +"</td><td>"+b.fornavn +"</td><td>"+b.etternavn +"</td><td>"+b.telefon +"</td><td>"+b.epost +"</td>"+
+            "<td>"+b.film +"</td><td>"+b.antall +"</td><td>"+b.fornavn +"</td><td>"+b.etternavn +"</td><td>"+b.telefonNr +"</td><td>"+b.epost +"</td>"+
             "<td><a class='btn btn-primary' href='endring.html?id= "  + b.id + "'>Endre</a> </td>"+
             "<td><button class='btn btn-danger' onclick='slettEn(" + b.id + ")'>Slett</button></td>"+
             "</tr>";
@@ -106,7 +106,7 @@ function formaterData(billetter){
 }
 
 function slettEn(id) {
-    const url = "/slettEn?id="+id;
+    const url = "/slettBillettet?id="+id;
     $.get(url, function () {
         hentAlle();
     });
