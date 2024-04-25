@@ -98,8 +98,8 @@ function formaterData(billetter){
     for(let b of billetter){
         ut +="<tr>" +
             "<td>"+b.film +"</td><td>"+b.antall +"</td><td>"+b.fornavn +"</td><td>"+b.etternavn +"</td><td>"+b.telefonNr +"</td><td>"+b.epost +"</td>"+
-            "<td><a class='btn btn-primary' href='endring.html?id= "  + b.id + "'>Endre</a> </td>"+
-            "<td><button class='btn btn-danger' onclick='slettEn(" + b.id + ")'>Slett</button></td>"+
+            "<td><a class='btn btn-outline-dark' href='endring.html?id= "  + b.id + "'>Endre</a> </td>"+
+            "<td><button class='btn btn-outline-danger' onclick='slettEn(" + b.id + ")'>Slett</button></td>"+
             "</tr>";
     }
     $("#billetter").html(ut);
